@@ -1,0 +1,13 @@
+@import "../../../styles/configs";
+
+.button {
+  border-radius: 5px;
+  padding: 8px 15px;
+  text-align: center;
+  background-color: $primary-blue;
+  color: $primary-white;
+  border: 0;
+  &:disabled {
+    opacity: 0.5;
+  }
+}
