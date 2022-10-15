@@ -1,5 +1,6 @@
 import logo from './logo.svg';
-import './App.scss';
+import PaginaProva from './pages/PaginaProva';
+import './styles/base.scss';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <PaginaProva/>
     </div>
   );
 }
