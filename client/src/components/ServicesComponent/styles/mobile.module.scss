@@ -1,0 +1,17 @@
+@import "../../../styles/configs";
+
+.wrap {
+  .sectionTitle {
+    @include sectionTitle();
+  }
+  .servicesList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .button {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+}
