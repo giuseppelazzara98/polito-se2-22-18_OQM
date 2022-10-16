@@ -2,7 +2,7 @@
 
 const express = require('express');
 const morgan = require('morgan');
-const { check, validationResult } = require('express-validator');
+const { check, body, validationResult } = require('express-validator');
 const cors = require('cors');
 
 const passport = require('passport'); // auth middleware
@@ -85,23 +85,95 @@ app.use(passport.session());
 
 /******API******/
 
+/*** Services APIs ***/
+
 // GET /api/services
 app.get('/api/services', async (req, res) => {
 
-    const result = await serviceDao.getAllServices();
-
-    switch (result) {
-        case 500:
-            return res.status(500).json({ error: "Internal Server Error" });
-        default:
-            return res.status(200).json(result);
+    try {
+        const result = await serviceDao.getAllServices();
+        return res.status(200).json(result);
+    }
+    catch(err) {
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 
 });
 
-app.get('/', (req, res) => {
-	res.send('TEST SERVER');
+/*** Tickets APIs ***/
+
+//GET /api/clientsPerService/:id_service
+app.get('/api/clientsPerService/:id_service', 
+    [check('id_service').notEmpty().isNumeric().isInt({ min: 0 })],
+    async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        console.log("Validation of id_service failed!");
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    if (!req.params) {
+        console.log("Error in request parameters!");
+        return res.status(422).json({ error: "Error in request parameters" });
+    }
+
+    try {
+        const serviceOk = await serviceDao.getServiceById(req.params.id_service); 
+
+        if(serviceOk !== undefined){
+            const result = await ticketDao.clientsPerService(req.params.id_service);
+            return res.status(200).json(result);
+        }
+        else{
+            return res.status(404).json({ error: "Not Found" });
+        }
+    }
+    catch(err) {
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+
 });
+
+// POST /api/ticket
+app.post('/api/ticket',
+    body('id_service').isInt({ min: 0 }),
+    async (req, res) => {
+
+        const errors = validationResult(req);
+
+        if (Object.keys(req.body).length === 0) {
+            console.log("Empty body!");
+            return res.status(422).json({ error: "Empty Body" });
+        }
+
+        if (!errors.isEmpty()) {
+            console.log("Validation of request body failed!");
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        if (Object.keys(req.body).length !== 1) {
+            console.log("Data not formatted properly!");
+            return res.status(422).json({ error: "Data not formatted properly" });
+        }
+
+        try {
+            const serviceOk = await serviceDao.getServiceById(req.body.id_service);
+
+            if(serviceOk !== undefined){
+                const result = await ticketDao.storeTicket(req.body.id_service);
+                return res.status(201).json(result);
+            }
+            else {
+                return res.status(404).json({ error: "Not Found" });
+            }
+        }
+        catch(err) {
+            return res.status(503).json({ error: "Service Unavailable" });
+        }
+
+    });
 
 /*** Users APIs ***/
 

@@ -39,3 +39,26 @@ exports.getAllServices = () => {
         });
     });
 };
+
+exports.getServiceById = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM SERVICE WHERE id_service = ?;";
+        db.get(sql, [id], (err, row) => {
+            if (err) {
+                console.log('Error running sql: ' + sql);
+                console.log(err);
+                reject(err);
+            } else {
+                if (row !== undefined) {
+                    const service = {
+                        name: row.description,
+                        key: row.id_service,
+                        service_time: row.service_time
+                    }
+                    resolve(service)
+                }
+                else resolve(undefined);
+            }
+        })
+    })
+}
