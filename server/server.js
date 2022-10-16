@@ -6,8 +6,9 @@ const { check, validationResult } = require('express-validator');
 const passport = require('passport'); // auth middleware
 const LocalStrategy = require('passport-local').Strategy; // username and password for login
 const session = require('express-session'); // enable sessions
-const userDao = require('./user-dao'); // module for accessing the users in the DB
-const ticketDao = require('./ticket-dao'); // module for accessing tickets in the DB 
+const userDao = require('./modules/user-dao'); // module for accessing the users in the DB
+const serviceDao = require('./modules/service-dao'); // module for accessing the services in the DB
+const ticketDao = require('./modules/ticket-dao'); // module for accessing tickets in the DB 
 
 // init express
 const app = new express();
@@ -69,6 +70,19 @@ app.use(passport.session());
 
 /******API******/
 
+// GET /api/services
+app.get('/api/services', async (req, res) => {
+
+    const result = await serviceDao.getAllServices();
+
+    switch (result) {
+        case 500:
+            return res.status(500).json({ error: "Internal Server Error" });
+        default:
+            return res.status(200).json(result);
+    }
+
+});
 
 /*** Users APIs ***/
 
