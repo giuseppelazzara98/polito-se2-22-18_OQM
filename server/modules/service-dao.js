@@ -7,7 +7,16 @@ const db = new sqlite.Database('queue.db', (err) => {
     if (err) {
         throw err;
     }
-})
+});
+
+//TABLE FOR SERVICE
+
+exports.closeServiceTable = () => {
+    return new Promise((resolve, reject) => {
+        db.close();
+        resolve(true);
+    });
+}
 
 exports.getAllServices = () => {
     return new Promise((resolve, reject) => {
