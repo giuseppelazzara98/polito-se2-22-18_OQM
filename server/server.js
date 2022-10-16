@@ -1,4 +1,5 @@
 'use strict';
+
 const express = require('express');
 const morgan = require('morgan');
 const { check, validationResult } = require('express-validator');
@@ -95,6 +96,8 @@ app.get('/api/services', async (req, res) => {
         default:
             return res.status(200).json(result);
     }
+
+});
 
 app.get('/', (req, res) => {
 	res.send('TEST SERVER');
