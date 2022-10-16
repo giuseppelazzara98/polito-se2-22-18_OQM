@@ -52,7 +52,7 @@ function App2() {
 	return (
 		<div className="App">
 			<NavbarHead />
-			<main>
+			<main className='main-wrap'>
 				<MainCtx.Provider
 					value={{
 						services,
