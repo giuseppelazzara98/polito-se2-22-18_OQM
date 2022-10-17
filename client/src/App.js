@@ -24,6 +24,19 @@ function App() {
 function App2() {
 	const [services, setServices] = useState([]);
 
+		// A login state to manage navigation and rediretion
+		const [loggedIn, setLoggedIn] = useState(false);
+
+		// login function, passed as props to loginForm
+		const login = async (credentials) => {
+			try {
+				await API.logIn(credentials);
+				setLoggedIn(true);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
 	const receiptInfo = {
 		waitListCode: 'A026',
 		queueCode: 'K10',
@@ -39,7 +52,7 @@ function App2() {
 	return (
 		<div className="App">
 			<NavbarHead />
-			<main className='main-wrap'>
+			<main className="main-wrap">
 				<MainCtx.Provider
 					value={{
 						services,
@@ -48,7 +61,7 @@ function App2() {
 				>
 					<Routes>
 						<Route path="/" element={<UserPage />} />
-						<Route path="/login" element={<LoginForm />} />
+						<Route path="/login" element={<LoginForm login={login} />} />
 					</Routes>
 				</MainCtx.Provider>
 			</main>
