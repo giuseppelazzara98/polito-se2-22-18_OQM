@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import './styles/base.scss';
 import {
 	BrowserRouter as Router,
@@ -9,6 +9,7 @@ import {
 import UserPage from './pages/UserPage';
 import LoginForm from './components/LoginForm/LoginForm';
 import NavbarHead from './components/Navbar/navbar';
+import API from './api/api.js';
 
 export const MainCtx = createContext({});
 
@@ -22,6 +23,20 @@ function App() {
 
 function App2() {
 	// retrived by db
+
+	// A login state to manage navigation and rediretion
+	const [loggedIn, setLoggedIn] = useState(false);
+
+	// login function, passed as props to loginForm
+	const login = async (credentials) => {
+		try {
+			await API.logIn(credentials);
+			setLoggedIn(true);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const services = [
 		{
 			name: 'service 1',
@@ -52,7 +67,7 @@ function App2() {
 	return (
 		<div className="App">
 			<NavbarHead />
-			<main className='main-wrap'>
+			<main className="main-wrap">
 				<MainCtx.Provider
 					value={{
 						services,
@@ -61,7 +76,7 @@ function App2() {
 				>
 					<Routes>
 						<Route path="/" element={<UserPage />} />
-						<Route path="/login" element={<LoginForm />} />
+						<Route path="/login" element={<LoginForm login={login} />} />
 					</Routes>
 				</MainCtx.Provider>
 			</main>
