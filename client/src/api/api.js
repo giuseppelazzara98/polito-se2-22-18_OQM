@@ -38,7 +38,6 @@ const getServices = async () => {
 }
 
 const insertNewTicket = async (data) => {
-	console.log("entro qui", data)
 	const response = await fetch(SERVER_URL + "/api/ticket", {
 		method: "POST",
 		headers: {
