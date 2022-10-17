@@ -9,12 +9,39 @@ const db = new sqlite.Database('queue.db', (err) => {
     }
 });
 
-//TABLE FOR SERVICE
-
 exports.closeServiceTable = () => {
     return new Promise((resolve, reject) => {
         db.close();
         resolve(true);
+    });
+}
+
+exports.newServiceTable = () => {
+    return new Promise((resolve, reject) => {
+        const sql = "CREATE TABLE IF NOT EXISTS SERVICE(id_service INTEGER NOT NULL, description TEXT NOT NULL, service_time INTEGER NOT NULL, PRIMARY KEY(id_service AUTOINCREMENT));";
+        db.run(sql, (err) => {
+            if (err) {
+                console.log('Error running sql: ' + sql);
+                console.log(err);
+                reject(err);
+            }
+            resolve(this.lastID);
+        });
+    });
+}
+
+exports.dropServiceTable = () => {
+    return new Promise((resolve, reject) => {
+        const sql = "DROP TABLE IF EXISTS SERVICE;";
+        db.run(sql, function (err) {
+            if (err) {
+                console.log('Error running sql: ' + sql);
+                console.log(err);
+                reject(err);
+            }
+            resolve(this.lastID);
+        })
+
     });
 }
 

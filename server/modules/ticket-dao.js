@@ -10,6 +10,43 @@ const db = new sqlite.Database('queue.db', (err) => {
     }
 })
 
+exports.closeTicketTable = () => {
+    return new Promise((resolve, reject) => {
+        db.close();
+        resolve(true);
+    });
+}
+
+exports.newTicketTable = () => {
+    return new Promise((resolve, reject) => {
+        const sql = "CREATE TABLE IF NOT EXISTS TICKET(id_ticket INTEGER NOT NULL, id_service INTEGER NOT NULL, FOREIGN KEY(id_service) REFERENCES SERVICE(id_service), PRIMARY KEY(id_ticket AUTOINCREMENT));";
+        db.run(sql, (err) => {
+            if (err) {
+                console.log('Error running sql: ' + sql);
+                console.log(err);
+                reject(err);
+            }
+            resolve(this.lastID);
+        });
+    });
+}
+
+exports.dropTicketTable = () => {
+    return new Promise((resolve, reject) => {
+        const sql = "DROP TABLE IF EXISTS TICKET;";
+        db.run(sql, function (err) {
+            if (err) {
+                console.log('Error running sql: ' + sql);
+                console.log(err);
+                reject(err);
+            }
+            resolve(this.lastID);
+        })
+
+    });
+}
+
+
 exports.storeTicket = (id_service) => {
     return new Promise((resolve, reject) => {
         const sql = "INSERT INTO TICKET(id_service) VALUES (?);";
