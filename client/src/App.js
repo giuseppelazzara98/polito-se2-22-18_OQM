@@ -23,6 +23,7 @@ function App() {
 
 function App2() {
 	const [services, setServices] = useState([]);
+	const [receiptInfo, setReceiptInfo] = useState({});
 
 		// A login state to manage navigation and rediretion
 		const [loggedIn, setLoggedIn] = useState(false);
@@ -37,17 +38,17 @@ function App2() {
 			}
 		};
 
-	const receiptInfo = {
-		waitListCode: 'A026',
-		queueCode: 'K10',
-		timeEstimation: '00:10'
-	};
-
 	const currentUserServed = 'E10';
 
 	useEffect(() => {
 		API.getServices().then(servicesResult => setServices(servicesResult)).catch(error => console.log("errore"));
 	}, []);
+
+	useEffect(() => {
+		if (receiptInfo && Object.keys(receiptInfo).length > 0) {
+			setTimeout(() => setReceiptInfo({}), 5000);
+		}
+	}, [JSON.stringify(receiptInfo)]);
 
 	return (
 		<div className="App">
@@ -56,7 +57,8 @@ function App2() {
 				<MainCtx.Provider
 					value={{
 						services,
-						receiptInfo
+						receiptInfo,
+						setReceiptInfo,
 					}}
 				>
 					<Routes>
