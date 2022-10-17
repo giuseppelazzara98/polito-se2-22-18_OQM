@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import './styles/base.scss';
 import {
 	BrowserRouter as Router,
@@ -9,6 +9,7 @@ import {
 import UserPage from './pages/UserPage';
 import LoginForm from './components/LoginForm/LoginForm';
 import NavbarHead from './components/Navbar/navbar';
+import API from './api/api';
 
 export const MainCtx = createContext({});
 
@@ -21,25 +22,7 @@ function App() {
 }
 
 function App2() {
-	// retrived by db
-	const services = [
-		{
-			name: 'service 1',
-			key: 'service_1'
-		},
-		{
-			name: 'service 2',
-			key: 'service_2'
-		},
-		{
-			name: 'service 3',
-			key: 'service_3'
-		},
-		{
-			name: 'service 4',
-			key: 'service_4'
-		}
-	];
+	const [services, setServices] = useState([]);
 
 	const receiptInfo = {
 		waitListCode: 'A026',
@@ -48,6 +31,10 @@ function App2() {
 	};
 
 	const currentUserServed = 'E10';
+
+	useEffect(() => {
+		API.getServices().then(servicesResult => setServices(servicesResult)).catch(error => console.log("errore"));
+	}, []);
 
 	return (
 		<div className="App">

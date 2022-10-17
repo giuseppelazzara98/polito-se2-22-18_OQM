@@ -26,9 +26,21 @@ const logOut = async () => {
 	if (response.ok) return null;
 };
 
+const getServices = async () => {
+	const response = await fetch(SERVER_URL + "/api/services");
+	if(response.ok) {
+		const services = await response.json();
+		return services;
+	} else {
+		const errDetails = await response.text();
+		return errDetails;
+	}
+}
+
 const API = {
 	logIn,
-	logOut
+	logOut,
+	getServices,
 };
 
 export default API;

@@ -21,6 +21,11 @@ export default function ServicesComponent(props) {
         {services?.map(service => (
           <Button key={service.key} label={service.name} onClick={() => handleClick(service.key)} className={styles.button}/>
         ))}
+        {services?.length === 0 && (
+          <div className={styles.alert}>
+            There is a problem, try later
+          </div>
+        )}
       </div>
     </div>
   )
