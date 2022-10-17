@@ -163,7 +163,16 @@ app.post('/api/ticket',
 
             if(serviceOk !== undefined){
                 const result = await ticketDao.storeTicket(req.body.id_service);
-                return res.status(201).json(result);
+                const service_name = await serviceDao.getServiceById(req.body.id_service);
+                const waiting_time = 10;    //TODO: implement the waiting time function
+
+                const receipt_info = {
+                    waitListCode: result,
+		            queueCode: service_name.name,
+		            timeEstimation: waiting_time
+                };
+
+                return res.status(201).json(receipt_info);
             }
             else {
                 return res.status(404).json({ error: "Not Found" });

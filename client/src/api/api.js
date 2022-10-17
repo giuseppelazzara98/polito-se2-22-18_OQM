@@ -26,9 +26,40 @@ const logOut = async () => {
 	if (response.ok) return null;
 };
 
+const getServices = async () => {
+	const response = await fetch(SERVER_URL + "/api/services");
+	if(response.ok) {
+		const services = await response.json();
+		return services;
+	} else {
+		const errDetails = await response.text();
+		return errDetails;
+	}
+}
+
+const insertNewTicket = async (data) => {
+	console.log("entro qui", data)
+	const response = await fetch(SERVER_URL + "/api/ticket", {
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	});
+	if (response.ok) {
+		const ticketInfo = await response.json();
+		return ticketInfo;
+	} else {
+		const errDetails = await response.text();
+		return errDetails;
+	}
+}
+
 const API = {
 	logIn,
-	logOut
+	logOut,
+	getServices,
+	insertNewTicket,
 };
 
 export default API;
