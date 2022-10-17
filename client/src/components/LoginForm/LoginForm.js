@@ -4,11 +4,14 @@ import { Form, Button } from 'react-bootstrap';
 function LoginForm(props) {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [err, setErr] = useState(false);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const credentials = { username, password };
-		props.login(credentials);
+		props.login(credentials).then((val) => {
+			val ? setErr(false) : setErr(true);
+		});
 	};
 
 	return (
@@ -35,6 +38,9 @@ function LoginForm(props) {
 						minLength={6}
 					/>
 				</Form.Group>
+				{err ? (
+					<p className="text-danger">Wrong username or/and password</p>
+				) : null}
 				<Button className="mt-5" type="submit">
 					Login
 				</Button>
