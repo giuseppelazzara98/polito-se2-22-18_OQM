@@ -5,6 +5,25 @@
   margin-top: 30px;
 }
 
+.button-officer {
+  width: 100%;
+  margin-bottom: 20px;
+  @media (min-width: $tablet-landscape) {
+    width: auto;
+    margin-bottom: 0;
+  }
+}
+
+.officer-info {
+  border-radius: 5px;
+  padding: 15px;
+  background-color: $secondary-blue;
+  box-shadow: 5px 5px 5px 0 #ccc;
+  .section-title {
+    @include font(500, 16px, 18px, 0);
+  }
+}
+
 .App {
   text-align: center;
 }

@@ -9,6 +9,7 @@ import {
 import UserPage from './pages/UserPage';
 import LoginForm from './components/LoginForm/LoginForm';
 import NavbarHead from './components/Navbar/navbar';
+import OfficerPage from './pages/OfficerPage';
 
 export const MainCtx = createContext({});
 
@@ -62,6 +63,7 @@ function App2() {
 					<Routes>
 						<Route path="/" element={<UserPage />} />
 						<Route path="/login" element={<LoginForm />} />
+						<Route path='/officerPage' element={<OfficerPage/>}/>
 					</Routes>
 				</MainCtx.Provider>
 			</main>
