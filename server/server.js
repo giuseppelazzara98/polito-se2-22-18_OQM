@@ -161,24 +161,26 @@ app.post('/api/ticket',
         try {
             const serviceOk = await serviceDao.getServiceById(req.body.id_service);
             const serviceCounter = await ticketDao.getServiceCounter(req.body.id_service); 
+
             if(serviceOk !== undefined){
                 const serviceTime = serviceOk.service_time;
-                const nrPeoplePerService = ticketDao.clientsPerService(req.body.id_service).number;
+                const nrPeoplePerService = await ticketDao.clientsPerService(req.body.id_service).number;
+
                 let ki = 0;
+
                 serviceCounter.forEach(element => {
                     ki += element.n_services;
                 });
+
+                console.log("KI = " + ki);
+
                 const estimatedTime =  serviceTime * ((nrPeoplePerService/(1/ki)) + .5);
-                return res.status(200).json({ estimatedTime });
-                
                 const result = await ticketDao.storeTicket(req.body.id_service);
-                const service_name = await serviceDao.getServiceById(req.body.id_service);
-                const waiting_time = 10;    //TODO: implement the waiting time function
 
                 const receipt_info = {
                     waitListCode: result,
-		            queueCode: service_name.name,
-		            timeEstimation: waiting_time
+		            queueCode: serviceOk.name,
+		            timeEstimation: estimatedTime
                 };
 
                 return res.status(201).json(receipt_info);

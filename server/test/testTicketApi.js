@@ -5,16 +5,17 @@ chai.should();
 
 const app = require('../server');
 const ticketDao = require('../modules/ticket-dao');
+const { assert } = require('chai');
 var agent = chai.request.agent(app);
 
-describe('test service apis', () => {
+let value1;
+let value2;
+let value3;
+let value4;
 
-    let value1 = 0;
-    let value2 = 0;
-    let value3 = 0;
-    let value4 = 0;
+describe('test ticket apis', async () => {
 
-    before(async function() {
+    before(async () => {
         value1 = await ticketDao.clientsPerService(1);
         value2 = await ticketDao.clientsPerService(2);
         value3 = await ticketDao.clientsPerService(3);
@@ -60,6 +61,7 @@ function getClientsPerService(expectedHTTPStatus, service_id, number) {
                 }
                 else {
                     Object.keys(r.body).length.should.equal(1);
+                    assert.equal(r.body.number,number);
                     done();
                 }
             });
