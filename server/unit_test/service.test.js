@@ -2,7 +2,7 @@ const testServiceDao = require('../modules/service-dao');
 
 describe('testServiceDao', () => {
 
-    testGetServices();
+    testGetServices(4);
 
     testGetServiceByServiceId(3,true);
     testGetServiceByServiceId(5,false);
@@ -17,12 +17,12 @@ describe('testServiceDao', () => {
 
 });
 
-function testGetServices() {
+function testGetServices(result) {
     test('test get services', async () => {
 
         try {
             var res = await testServiceDao.getAllServices();
-            expect(res.length).toStrictEqual(4);
+            expect(res.length).toStrictEqual(result);
         }
         catch (err) {
             console.log("---- error ----");
