@@ -8,12 +8,12 @@ var agent = chai.request.agent(app);
 
 describe('test service apis', () => {
 
-    //Testing GET /api/items/:id
-    getAllItems(200, 4);
+    //Testing GET /api/services
+    getAllServices(200, 4);
 
 });
 
-function getAllItems(expectedHTTPStatus, number) {
+function getAllServices(expectedHTTPStatus, number) {
     it('getting all services from the service table', function (done) {
         agent.get('/api/services')
             .then(function (r) {

@@ -25,23 +25,25 @@ function App2() {
 	const [services, setServices] = useState([]);
 	const [receiptInfo, setReceiptInfo] = useState({});
 
-		// A login state to manage navigation and rediretion
-		const [loggedIn, setLoggedIn] = useState(false);
+	// A login state to manage navigation and rediretion
+	const [loggedIn, setLoggedIn] = useState(false);
 
-		// login function, passed as props to loginForm
-		const login = async (credentials) => {
-			try {
-				await API.logIn(credentials);
-				setLoggedIn(true);
-			} catch (err) {
-				console.log(err);
-			}
-		};
+	// login function, passed as props to loginForm
+	const login = async (credentials) => {
+		try {
+			await API.logIn(credentials);
+			setLoggedIn(true);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const currentUserServed = 'E10';
 
 	useEffect(() => {
-		API.getServices().then(servicesResult => setServices(servicesResult)).catch(error => console.log("errore"));
+		API.getServices()
+			.then((servicesResult) => setServices(servicesResult))
+			.catch((error) => console.log('errore'));
 	}, []);
 
 	useEffect(() => {
@@ -58,7 +60,7 @@ function App2() {
 					value={{
 						services,
 						receiptInfo,
-						setReceiptInfo,
+						setReceiptInfo
 					}}
 				>
 					<Routes>

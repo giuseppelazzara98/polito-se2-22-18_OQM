@@ -88,4 +88,33 @@ exports.getServiceById = (id) => {
             }
         })
     })
-}
+}   
+
+
+    exports.getServiceCounter = (id_service) => {
+        return new Promise((resolve, reject) => {
+            const sql = "SELECT cs.id_counter,cns.n_services from COUNTER_SERVICE cs,(select id_counter, count(*) as n_services from COUNTER_SERVICE cs, SERVICE s where cs.id_service = s.id_service group by id_counter) cns where cs.id_counter = cns.id_counter and cs.id_service = ?;";
+            db.all(sql,[id_service], (err, rows) => {
+                if (err) {
+                    console.log('Error running sql: ' + sql);
+                    console.log(err);
+                    reject(err);
+                } else {
+                    if (rows !== undefined) {
+                        const services = rows.map((el) => {
+                            return {
+                                id_counter: el.id_counter,
+                                n_services: el.n_services
+                            }
+                        });
+
+                        resolve(services);
+                    }
+                    else resolve(undefined);
+                }
+            })
+        })
+    }
+    
+
+    
