@@ -57,7 +57,7 @@ exports.storeTicket = (id_service) => {
                 reject(err);
             }
             else {
-                
+
                 resolve(this.lastID);
             }
         });
@@ -81,4 +81,19 @@ exports.clientsPerService = (id_service) => {
             }
         });
     });
+}
+
+exports.deleteTicket = (id_ticket, id_service) => {
+    return new Promise((resolve, reject) => {
+        const sql = "DELETE FROM TICKET WHERE id_ticket = ? AND id_service = ?;";
+        db.run(sql, [id_ticket, id_service], function (err) {
+            if (err) {
+                console.log('Error running sql: ' + sql);
+                console.log(err);
+                reject(err);
+            } else {
+                resolve(true);
+            }
+        })
+    })
 }

@@ -1,3 +1,4 @@
+const { expect } = require('chai');
 const testTicketDao = require('../modules/ticket-dao');
 
 describe('testTicketsDao', () => {
@@ -27,11 +28,16 @@ describe('testTicketsDao', () => {
     testGetNumberOfTicketPerService(3,1);
     testGetNumberOfTicketPerService(4,3);
 
+    testDeleteTicket(4,3);
+    testDeleteTicket(5,3);
+    testDeleteTicket(6,2);
+
     // CLOSE CONNECTION TO SERVICE TABLE
 
     TestCloseTicketTable();
 
     testNewTicket(3);
+    testDeleteTicket(3);
     testGetNumberOfTicketPerService(3,1);
     testGetNumberOfTicketPerService(4,3);
 });
@@ -63,6 +69,21 @@ function testGetNumberOfTicketPerService(service_id, result) {
             console.log("---- error ----");
             return;
         }
+    });
+}
+
+function testDeleteTicket(id_ticket, id_service){
+    test('test delete ticket', async () => {
+
+        try {
+            var res = await testTicketDao.deleteTicket(id_ticket,id_service);
+            expect(res).toStrictEqual(true);
+        }
+        catch(err) {
+            console.log("---- error ----");
+            return;
+        }
+
     });
 }
 
