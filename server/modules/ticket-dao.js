@@ -57,6 +57,7 @@ exports.storeTicket = (id_service) => {
                 reject(err);
             }
             else {
+                
                 resolve(this.lastID);
             }
         });

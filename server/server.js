@@ -160,10 +160,17 @@ app.post('/api/ticket',
 
         try {
             const serviceOk = await serviceDao.getServiceById(req.body.id_service);
-
+            const serviceCounter = await ticketDao.getServiceCounter(req.body.id_service); 
             if(serviceOk !== undefined){
-                const result = await ticketDao.storeTicket(req.body.id_service);
-                return res.status(201).json(result);
+                const serviceTime = serviceOk.service_time;
+                const nrPeoplePerService = ticketDao.clientsPerService(req.body.id_service).number;
+                let ki = 0;
+                serviceCounter.forEach(element => {
+                    ki += element.n_services;
+                });
+                const estimatedTime =  serviceTime * ((nrPeoplePerService/(1/ki)) + .5);
+                return res.status(200).json({ estimatedTime });
+                
             }
             else {
                 return res.status(404).json({ error: "Not Found" });
