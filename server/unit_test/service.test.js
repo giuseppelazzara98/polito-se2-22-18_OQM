@@ -8,12 +8,16 @@ describe('testServiceDao', () => {
     testGetServiceByServiceId(5,false);
     testGetServiceByServiceId(57,false);
     testGetServiceByServiceId(1,true);
+    TestServiceCounter(1,[{id_counter: 1, n_services: 3}]);
+    TestServiceCounter(2,[{id_counter: 2, n_services: 3}]);
+    TestServiceCounter(3,[{id_counter: 1, n_services: 3},{id_counter: 2, n_services: 3}]);
 
     // CLOSE CONNECTION TO SERVICE TABLE
 
     TestCloseServiceTable();
     testGetServiceByServiceId(23, false);
     testGetServices();
+    TestServiceCounter(1,{id_counter: 1, n_services: 3});
 
 });
 
@@ -58,3 +62,17 @@ function TestCloseServiceTable() {
         await testServiceDao.closeServiceTable();
     });
 }
+
+function TestServiceCounter (id_service, result) {
+    test('test service counter', async () => {
+        try {
+            var res = await testServiceDao.getServiceCounter(id_service);
+            expect(res).toStrictEqual(result);
+        }
+        catch (err) {
+            console.log("---- error ----");
+            return;
+        }
+    });
+}
+    
