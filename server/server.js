@@ -2,15 +2,15 @@
 
 const express = require('express');
 const morgan = require('morgan');
-const { check, body, validationResult } = require('express-validator');
 const cors = require('cors');
 
 const passport = require('passport'); // auth middleware
 const LocalStrategy = require('passport-local').Strategy; // username and password for login
 const session = require('express-session'); // enable sessions
 const userDao = require('./modules/user-dao'); // module for accessing the users in the DB
-const serviceDao = require('./modules/service-dao'); // module for accessing the services in the DB
-const ticketDao = require('./modules/ticket-dao'); // module for accessing tickets in the DB 
+
+const serviceRouter = require('./routers/service_router');
+const ticketRouter = require('./routers/ticket_router');
 
 // init express
 const app = new express();
@@ -85,113 +85,8 @@ app.use(passport.session());
 
 /******API******/
 
-/*** Services APIs ***/
-
-// GET /api/services
-app.get('/api/services', async (req, res) => {
-
-    try {
-        const result = await serviceDao.getAllServices();
-        return res.status(200).json(result);
-    }
-    catch(err) {
-        return res.status(500).json({ error: "Internal Server Error" });
-    }
-
-});
-
-/*** Tickets APIs ***/
-
-//GET /api/clientsPerService/:id_service
-app.get('/api/clientsPerService/:id_service', 
-    [check('id_service').notEmpty().isNumeric().isInt({ min: 0 })],
-    async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        console.log("Validation of id_service failed!");
-        return res.status(422).json({ errors: errors.array() });
-    }
-
-    if (!req.params) {
-        console.log("Error in request parameters!");
-        return res.status(422).json({ error: "Error in request parameters" });
-    }
-
-    try {
-        const serviceOk = await serviceDao.getServiceById(req.params.id_service); 
-
-        if(serviceOk !== undefined){
-            const result = await ticketDao.clientsPerService(req.params.id_service);
-            return res.status(200).json(result);
-        }
-        else{
-            return res.status(404).json({ error: "Not Found" });
-        }
-    }
-    catch(err) {
-        return res.status(500).json({ error: "Internal Server Error" });
-    }
-
-});
-
-// POST /api/ticket
-app.post('/api/ticket',
-    body('id_service').isInt({ min: 0 }),
-    async (req, res) => {
-
-        const errors = validationResult(req);
-
-        if (Object.keys(req.body).length === 0) {
-            console.log("Empty body!");
-            return res.status(422).json({ error: "Empty Body" });
-        }
-
-        if (!errors.isEmpty()) {
-            console.log("Validation of request body failed!");
-            return res.status(422).json({ errors: errors.array() });
-        }
-
-        if (Object.keys(req.body).length !== 1) {
-            console.log("Data not formatted properly!");
-            return res.status(422).json({ error: "Data not formatted properly" });
-        }
-
-        try {
-            const serviceOk = await serviceDao.getServiceById(req.body.id_service);
-            const serviceCounter = await serviceDao.getServiceCounter(req.body.id_service);
-            
-            if(serviceOk !== undefined){
-                const serviceTime = serviceOk.service_time;
-                let nrPeoplePerService = await ticketDao.clientsPerService(req.body.id_service);
-                let nr = nrPeoplePerService.number; 
-                let ki = 0;
-
-                serviceCounter.forEach(element => {
-                    ki += element.n_services;
-                });
-
-
-                const estimatedTime =  serviceTime * ((nr/(1/ki)) + .5);
-                const result = await ticketDao.storeTicket(req.body.id_service);
-                const receipt_info = {
-                    waitListCode: result,
-		            queueCode: serviceOk.name,
-		            timeEstimation: estimatedTime
-                };
-
-                return res.status(201).json(receipt_info);
-            }
-            else {
-                return res.status(404).json({ error: "Not Found" });
-            }
-        }
-        catch(err) {
-            return res.status(503).json({ error: "Service Unavailable" });
-        }
-
-    });
+app.use('/api',serviceRouter);
+app.use('/api',ticketRouter);
 
 /*** Users APIs ***/
 
