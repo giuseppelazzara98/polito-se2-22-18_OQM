@@ -8,19 +8,12 @@ const ticketDao = require('../modules/ticket-dao');
 const { assert } = require('chai');
 var agent = chai.request.agent(app);
 
-let value1;
-let value2;
-let value3;
-let value4;
+describe('test ticket apis', () => {
 
-describe('test ticket apis', async () => {
-
-    before(async () => {
-        value1 = await ticketDao.clientsPerService(1);
-        value2 = await ticketDao.clientsPerService(2);
-        value3 = await ticketDao.clientsPerService(3);
-        value4 = await ticketDao.clientsPerService(4);
-    });
+    let value1 = 4;
+    let value2 = 4;
+    let value3 = 3;
+    let value4 = 3;
 
     //Testing GET /api/clientsPerService/:id_service
     getClientsPerService(404,7);

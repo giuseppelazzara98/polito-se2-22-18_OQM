@@ -161,7 +161,7 @@ app.post('/api/ticket',
         try {
             const serviceOk = await serviceDao.getServiceById(req.body.id_service);
             const serviceCounter = await serviceDao.getServiceCounter(req.body.id_service);
-            console.log(serviceCounter); 
+            
             if(serviceOk !== undefined){
                 const serviceTime = serviceOk.service_time;
                 let nrPeoplePerService = await ticketDao.clientsPerService(req.body.id_service);
