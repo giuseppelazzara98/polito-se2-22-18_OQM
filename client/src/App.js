@@ -47,9 +47,11 @@ function App2() {
 	}, []);
 
 	useEffect(() => {
+		let timerReceipt = null;
 		if (receiptInfo && Object.keys(receiptInfo).length > 0) {
-			setTimeout(() => setReceiptInfo({}), 5000);
+			timerReceipt = setTimeout(() => setReceiptInfo({}), 7000);
 		}
+		return () => clearTimeout(timerReceipt);
 	}, [JSON.stringify(receiptInfo)]);
 
 	return (
