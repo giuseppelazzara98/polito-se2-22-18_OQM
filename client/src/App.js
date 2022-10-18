@@ -10,6 +10,7 @@ import UserPage from './pages/UserPage';
 import LoginForm from './components/LoginForm/LoginForm';
 import NavbarHead from './components/Navbar/navbar';
 import API from './api/api';
+import MainBoard from './pages/MainBoard';
 
 export const MainCtx = createContext({});
 
@@ -49,7 +50,7 @@ function App2() {
 			setTimeout(() => setReceiptInfo({}), 5000);
 		}
 	}, [JSON.stringify(receiptInfo)]);
-
+  
 	return (
 		<div className="App">
 			<NavbarHead />
@@ -63,7 +64,8 @@ function App2() {
 				>
 					<Routes>
 						<Route path="/" element={<UserPage />} />
-						<Route path="/login" element={<LoginForm login={login} />} />
+            <Route path="/login" element={<LoginForm login={login} />} />
+            <Route path="/mainboard" element={<MainBoard services={services}/>}/>
 					</Routes>
 				</MainCtx.Provider>
 			</main>

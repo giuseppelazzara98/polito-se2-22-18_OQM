@@ -37,6 +37,18 @@ const getServices = async () => {
 	}
 }
 
+const getLenghtService= async (service)=>{
+	
+	const response = await fetch(SERVER_URL + "/api/clientsPerService/" + service.key);
+	if(response.ok) {
+		const lenght = await response.json();
+		return lenght;
+	} else {
+		const errDetails = await response.text();
+		return errDetails;
+	}
+}
+
 const insertNewTicket = async (data) => {
 	console.log("entro qui", data)
 	const response = await fetch(SERVER_URL + "/api/ticket", {
@@ -60,6 +72,7 @@ const API = {
 	logOut,
 	getServices,
 	insertNewTicket,
+	getLenghtService
 };
 
 export default API;
