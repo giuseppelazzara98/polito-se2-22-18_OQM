@@ -1,5 +1,7 @@
 @import "../../../styles/configs";
 
 @media (min-width: $tablet-landscape) {
-
+  .info {
+    text-align: left;
+  }
 }
