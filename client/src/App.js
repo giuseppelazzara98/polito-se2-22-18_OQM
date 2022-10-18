@@ -33,8 +33,10 @@ function App2() {
 		try {
 			await API.logIn(credentials);
 			setLoggedIn(true);
+			return true;
 		} catch (err) {
 			console.log(err);
+			return false;
 		}
 	};
 
