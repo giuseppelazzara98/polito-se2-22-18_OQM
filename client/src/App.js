@@ -42,7 +42,7 @@ function App2() {
 				setLoggedIn(true);
 				//navigate and connect officer page
 				navigate('/officerPage');
-				return true;
+				return userInfo.role;
 			}
 		} catch (err) {
 			console.log(err);

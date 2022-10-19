@@ -1,16 +1,24 @@
 import { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm(props) {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [err, setErr] = useState(false);
 
+	const navigate = useNavigate();
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const credentials = { username, password };
 		props.login(credentials).then((val) => {
-			val ? setErr(false) : setErr(true);
+			if (val) {
+				setErr(false);
+				navigate(val === "officer" ? "/officerPage" : "managerPage");
+			} else {
+				setErr(true);
+			}
 		});
 	};
 
