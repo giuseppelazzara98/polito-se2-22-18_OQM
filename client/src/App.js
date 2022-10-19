@@ -109,7 +109,14 @@ function App2() {
 									: <Navigate to="/managerPage"/>
 								: <UserPage />
 							} />
-						<Route path="/login" element={<LoginForm login={login} />} />
+						<Route
+							path="/login"
+							element={
+								loggedIn ?
+									userInfo?.role === "officer" ? <Navigate to='/officerPage' />
+									: <Navigate to="/managerPage"/>
+								: <LoginForm login={login} />
+							} />
 						<Route
 							path="/officerPage"
 							element={
