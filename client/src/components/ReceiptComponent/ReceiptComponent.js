@@ -5,14 +5,14 @@ import dayjs from "dayjs";
 var duration = require('dayjs/plugin/duration');
 dayjs.extend(duration);
 
-export default function ReciptComponent(props) {
+export default function ReceiptComponent(props) {
   const {
     receiptInfo,
   } = useContext(MainCtx);
 
   const getTimeEstimation = (time) => {
     if (time) {
-      const duration = dayjs.duration(receiptInfo.timeEstimation, "minutes").format("HH:mm");
+      const duration = dayjs.duration(parseInt(receiptInfo.timeEstimation), "seconds").format("HH:mm");
       return duration;
     }
     return "0";
