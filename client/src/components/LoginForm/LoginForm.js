@@ -17,8 +17,7 @@ function LoginForm(props) {
 	return (
 		<>
 			<Row>
-				<Col></Col>
-				<Col>
+				<Col xs={{span: 4, offset: 4}}>
 					<Form onSubmit={handleSubmit}>
 						<Form.Group controlId="username">
 							<Form.Label>Email</Form.Label>
@@ -49,7 +48,6 @@ function LoginForm(props) {
 						</Button>
 					</Form>
 				</Col>
-				<Col></Col>
 			</Row>
 		</>
 	);
