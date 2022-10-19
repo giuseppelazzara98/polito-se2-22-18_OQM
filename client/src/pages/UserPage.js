@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import ReciptComponent from "../components/ReciptComponent/ReciptComponent";
+import ReceiptComponent from "../components/ReceiptComponent/ReceiptComponent";
 import ServicesComponent from "../components/ServicesComponent/ServicesComponent";
 
 export default function UserPage(props) {
@@ -11,7 +11,7 @@ export default function UserPage(props) {
           <ServicesComponent/>
         </Col>
         <Col xs={12} md={4}>
-          <ReciptComponent/>
+          <ReceiptComponent/>
         </Col>
       </Row>
     </Container>

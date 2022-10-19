@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 var duration = require('dayjs/plugin/duration');
 dayjs.extend(duration);
 
-export default function ReciptComponent(props) {
+export default function ReceiptComponent(props) {
   const {
     receiptInfo,
   } = useContext(MainCtx);
