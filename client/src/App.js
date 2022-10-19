@@ -61,9 +61,13 @@ function App2() {
 	useEffect(() => {
 		const checkAuth = async () => {
 			try {
-				await API.isAuthenticated();
-				setLoggedIn(true);
+				const userInfo = await API.isAuthenticated();
+				if (userInfo) {
+					setUserInfo(userInfo);
+					setLoggedIn(true);
+				}
 			} catch {
+				setUserInfo({});
 				setLoggedIn(false);
 			}
 		};
@@ -98,7 +102,14 @@ function App2() {
 					}}
 				>
 					<Routes>
-						<Route path="/" element={<UserPage />} />
+						<Route
+							path="/"
+							element={
+								loggedIn ?
+									userInfo?.role === "officer" ? <Navigate to='/officerPage' />
+									: <Navigate to="/managerPage"/>
+								: <UserPage />
+							} />
 						<Route path="/login" element={<LoginForm login={login} />} />
 						<Route
 							path="/officerPage"
