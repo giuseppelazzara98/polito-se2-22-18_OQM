@@ -5,25 +5,26 @@ import {
 	BrowserRouter as Router,
 	Routes,
 	Route,
-	Navigate, 
-    Link
+	Navigate,
+	Link
 } from 'react-router-dom';
 
-function NavbarHead() {
-  return (
-    <>
-      <Navbar bg="light" variant="light">
-        <Container>
-          <Navbar.Brand >Queue Manager</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="/mainboard">MainBoard</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link href="/">User Page</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-    </>
-  );
+function NavbarHead(props) {
+	return (
+		<>
+			<Navbar bg="light" variant="light">
+				<Container>
+					<Navbar.Brand>Queue Manager</Navbar.Brand>
+					<Nav className="me-auto">
+						<Nav.Link href="/mainboard">MainBoard</Nav.Link>
+						{/* Show options based on logged in state*/}
+						{props.loggedIn ? null : <Nav.Link href="/login">Login</Nav.Link>}
+						{props.loggedIn ? null : <Nav.Link href="/">User Page</Nav.Link>}
+					</Nav>
+				</Container>
+			</Navbar>
+		</>
+	);
 }
 
 export default NavbarHead;
