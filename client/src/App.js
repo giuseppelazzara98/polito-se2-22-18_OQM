@@ -27,6 +27,7 @@ function App2() {
 	const [services, setServices] = useState([]);
 	const [receiptInfo, setReceiptInfo] = useState({});
 	const [userInfo, setUserInfo] = useState({});
+	const [currentUserServed, setCurrentUserServed] = useState("");
 	const navigate = useNavigate();
 
 	// A login state to manage navigation and rediretion
@@ -74,8 +75,6 @@ function App2() {
 		checkAuth();
 	}, [loggedIn]);
 
-	const currentUserServed = 'E10';
-
 	useEffect(() => {
 		API.getServices()
 			.then((servicesResult) => setServices(servicesResult))
@@ -116,7 +115,7 @@ function App2() {
 							element={
 								loggedIn ?
 									userInfo?.role === "officer" ?
-										<OfficerPage logout={logout}/>
+										<OfficerPage logout={logout} currentUserServed={currentUserServed} setCurrentUserServed={setCurrentUserServed}/>
 										: <>{/*to insert manager page*/}</>
 									: <Navigate to='/' />
 								}
