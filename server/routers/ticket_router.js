@@ -7,40 +7,6 @@ const serviceDao = require('../modules/service-dao');
 
 /*** Tickets APIs ***/
 
-//GET /api/clientsPerService/:id_service
-router.get('/clientsPerService/:id_service',
-    [check('id_service').notEmpty().isNumeric().isInt({ min: 0 })],
-    async (req, res) => {
-
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            console.log("Validation of id_service failed!");
-            return res.status(422).json({ errors: errors.array() });
-        }
-
-        if (!req.params) {
-            console.log("Error in request parameters!");
-            return res.status(422).json({ error: "Error in request parameters" });
-        }
-
-        try {
-            const serviceOk = await serviceDao.getServiceById(req.params.id_service);
-
-            if (serviceOk !== undefined) {
-                const result = await ticketDao.clientsPerService(req.params.id_service);
-                return res.status(200).json(result);
-            }
-            else {
-                return res.status(404).json({ error: "Not Found" });
-            }
-        }
-        catch (err) {
-            return res.status(500).json({ error: "Internal Server Error" });
-        }
-
-    });
-
 // POST /api/ticket
 router.post('/ticket',
     body('id_service').isInt({ min: 0 }),

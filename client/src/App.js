@@ -25,6 +25,7 @@ function App() {
 function App2() {
 	const [services, setServices] = useState([]);
 	const [receiptInfo, setReceiptInfo] = useState({});
+	const [update, setUpdate] = useState(true);
 
 	// A login state to manage navigation and rediretion
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -42,10 +43,12 @@ function App2() {
 	const currentUserServed = 'E10';
 
 	useEffect(() => {
-		API.getServices()
-			.then((servicesResult) => setServices(servicesResult))
-			.catch((error) => console.log('errore'));
-	}, []);
+		if (update === true) {
+			API.getServices()
+				.then((servicesResult) => {setServices(servicesResult); setUpdate(false);})
+				.catch((error) => console.log('errore'));
+		}
+	}, [update]);
 
 	useEffect(() => {
 		let timerReceipt = null;
@@ -54,7 +57,7 @@ function App2() {
 		}
 		return () => clearTimeout(timerReceipt);
 	}, [JSON.stringify(receiptInfo)]);
-  
+
 	return (
 		<div className="App">
 			<NavbarHead />
@@ -68,8 +71,8 @@ function App2() {
 				>
 					<Routes>
 						<Route path="/" element={<UserPage />} />
-            <Route path="/login" element={<LoginForm login={login} />} />
-            <Route path="/mainboard" element={<MainBoard services={services}/>}/>
+						<Route path="/login" element={<LoginForm login={login} />} />
+						<Route path="/mainboard" element={<MainBoard services={services} setUpdate={setUpdate} />} />
 					</Routes>
 				</MainCtx.Provider>
 			</main>

@@ -1,35 +1,32 @@
 import { Table } from "react-bootstrap";
 import Button from "../Button/Button";
 
-function MainBoardTable(props){
-    
-    return(
+function MainBoardTable(props) {
+
+    return (
         <>
-        <Table key="table">
-            <thead>
-                <tr>
-                    <th>SERVICE</th>
-                    <th>LENGHT</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    
-                    props.lengths.map(elem=>
-                        
-                        <MainBoardRow service={elem.service.name} length={elem.servicesLength.number} key={elem.service.name}/>)
-                }
-            </tbody>
-        </Table>
-        <Button onClick={()=>props.changeUpdate()}>UPDATE</Button>
+            <Table key="table">
+                <thead>
+                    <tr>
+                        <th>SERVICE</th>
+                        <th>LENGHT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {   
+                        props.services.map(elem => <MainBoardRow service={elem.name} length={elem.result} key={elem.key} />)
+                    }
+                </tbody>
+            </Table>
+            <Button label="UPDATE" onClick={() => props.setUpdate(true)}></Button>
         </>
     );
 }
 
-function MainBoardRow(props){
-    
-    return(
-        <tr key={props.service}>
+function MainBoardRow(props) {
+
+    return (
+        <tr>
             <td>
                 {props.service}
             </td>
