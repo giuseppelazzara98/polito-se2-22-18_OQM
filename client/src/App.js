@@ -26,6 +26,7 @@ function App() {
 function App2() {
 	const [services, setServices] = useState([]);
 	const [receiptInfo, setReceiptInfo] = useState({});
+	const [userInfo, setUserInfo] = useState({});
 	const navigate = useNavigate();
 
 	// A login state to manage navigation and rediretion
@@ -34,11 +35,14 @@ function App2() {
 	// login function, passed as props to loginForm
 	const login = async (credentials) => {
 		try {
-			await API.logIn(credentials);
-			setLoggedIn(true);
-			//navigate and connect officer page
-			navigate('/officerPage');
-			return true;
+			const userInfo = await API.logIn(credentials);
+			if (userInfo) {
+				setUserInfo(userInfo);
+				setLoggedIn(true);
+				//navigate and connect officer page
+				navigate('/officerPage');
+				return true;
+			}
 		} catch (err) {
 			console.log(err);
 			return false;
@@ -48,6 +52,7 @@ function App2() {
 	//manage logout and nvigation upon logout
 	const logout = async () => {
 		await API.logOut();
+		setUserInfo({});
 		setLoggedIn(false);
 		navigate('/');
 	};
@@ -97,7 +102,13 @@ function App2() {
 						<Route path="/login" element={<LoginForm login={login} />} />
 						<Route
 							path="/officerPage"
-							element={<OfficerPage logout={logout} />}
+							element={
+								loggedIn ?
+									userInfo?.role === "officer" ?
+										<OfficerPage logout={logout}/>
+										: <>{/*to insert manager page*/}</>
+									: <Navigate to='/' />
+								}
 						/>
 					</Routes>
 				</MainCtx.Provider>
