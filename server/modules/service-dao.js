@@ -47,7 +47,7 @@ exports.dropServiceTable = () => {
 
 exports.getAllServices = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM SERVICE;";
+        const sql = "SELECT  S.description, S.id_service, S.service_time, COUNT(*) AS RESULT FROM TICKET T, SERVICE S WHERE S.id_service = T.id_service GROUP BY T.id_service;";
         db.all(sql, [], (err, rows) => {
             if (err) {
                 console.log('Error running sql: ' + sql);
@@ -58,7 +58,8 @@ exports.getAllServices = () => {
                     return {
                         name: el.description,
                         key: el.id_service,
-                        service_time: el.service_time
+                        service_time: el.service_time,
+                        result: el.RESULT
                     }
                 });
                 resolve(services);
