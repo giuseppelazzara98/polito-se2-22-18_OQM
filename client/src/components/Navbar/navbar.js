@@ -12,7 +12,7 @@ function NavbarHead() {
           <Navbar.Brand >Queue Manager</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={() => navigate("/mainboard")}>MainBoard</Nav.Link>
-            <Nav.Link onClick={() => navigate("/login")}>Login</Nav.Link>
+            {/* <Nav.Link onClick={() => navigate("/login")}>Login</Nav.Link> */}
             <Nav.Link onClick={() => navigate("/")}>User Page</Nav.Link>
           </Nav>
         </Container>

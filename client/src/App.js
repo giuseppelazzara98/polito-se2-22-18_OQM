@@ -73,7 +73,7 @@ function App2() {
 				>
 					<Routes>
 						<Route path="/" element={<UserPage />} />
-						<Route path="/login" element={<LoginForm login={login} />} />
+						{/* <Route path="/login" element={<LoginForm login={login} />} /> */}
 						<Route path="/mainboard" element={<MainBoard services={services} setUpdate={setUpdate} />} />
 					</Routes>
 				</MainCtx.Provider>
