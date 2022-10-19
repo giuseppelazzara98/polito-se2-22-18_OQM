@@ -12,7 +12,7 @@ export default function ReceiptComponent(props) {
 
   const getTimeEstimation = (time) => {
     if (time) {
-      const duration = dayjs.duration(receiptInfo.timeEstimation, "minutes").format("HH:mm");
+      const duration = dayjs.duration(parseInt(receiptInfo.timeEstimation), "seconds").format("HH:mm");
       return duration;
     }
     return "0";
