@@ -1,0 +1,20 @@
+@import "../../../styles/configs";
+
+@media (min-width: $tablet-landscape) {
+  .wrap {
+    .sectionTitle {
+      margin-bottom: 20px;
+    }
+    .servicesList {
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      .button {
+        width: 45%;
+      }
+    }
+    .alert {
+      margin-bottom: 0;
+    }
+  }
+}

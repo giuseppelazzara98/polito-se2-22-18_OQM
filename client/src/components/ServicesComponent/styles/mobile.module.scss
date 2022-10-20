@@ -1,0 +1,25 @@
+@import "../../../styles/configs";
+
+.wrap {
+  .sectionTitle {
+    @include sectionTitle();
+  }
+  .servicesList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .button {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+  .alert {
+    padding: 20px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    background-color: rgba($color: $primary-red, $alpha: 0.5);
+    margin-bottom: 20px;
+  }
+}
