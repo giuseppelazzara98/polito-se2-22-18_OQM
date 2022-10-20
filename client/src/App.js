@@ -58,7 +58,7 @@ function App2() {
 			timerReceipt = setTimeout(() => setReceiptInfo({}), 7000);
 		}
 		return () => clearTimeout(timerReceipt);
-	}, [JSON.stringify(receiptInfo)]);
+	}, [receiptInfo]);
 
 	return (
 		<div className="App">
