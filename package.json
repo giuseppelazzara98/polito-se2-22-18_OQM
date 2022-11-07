@@ -1,0 +1,13 @@
+{
+  "name": "application_o_q_m",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+  },
+  "scripts": {
+    "start-fe": "cd client && npm start",
+    "start-be": "cd server && node server.js",
+    "install-fe": "cd client && npm install",
+    "install-be": "cd server && npm install"
+  }
+}
